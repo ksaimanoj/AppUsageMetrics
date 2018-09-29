@@ -8,16 +8,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jonam.appusagemetrics.installedapps.InstalledAppDetails;
+import com.jonam.appusagemetrics.apps.AppDetails;
 
 import java.util.List;
 
 public class InstalledAppListAdapater extends ArrayAdapter {
 
-    List<InstalledAppDetails> appDetails;
+    List<AppDetails> appDetails;
     List appLogos;
 
-    public InstalledAppListAdapater(Context context, int resource, List<InstalledAppDetails> appDetails) {
+    public InstalledAppListAdapater(Context context, int resource, List<AppDetails> appDetails) {
         super(context, resource, appDetails);
 
         this.appDetails = appDetails;

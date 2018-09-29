@@ -1,13 +1,13 @@
-package com.jonam.appusagemetrics.installedapps;
+package com.jonam.appusagemetrics.apps;
 
 import android.graphics.drawable.Drawable;
 
-public class InstalledAppDetails {
+public class AppDetails {
 
     String appName;
     Drawable appLogo;
 
-    public InstalledAppDetails(String appName, Drawable appLogo) {
+    public AppDetails(String appName, Drawable appLogo) {
         this.appName = appName;
         this.appLogo = appLogo;
     }
