@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.*;
 
+import com.jonam.appusagemetrics.installedapps.InstalledAppDetails;
+
 import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,13 +18,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ListView listView = (ListView) findViewById(R.id.installedAppsListView);
-        List<String> installedApps = getInstalledAppNamesList();
-        ArrayAdapter adapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1 , installedApps);
+        List<InstalledAppDetails> installedApps = getInstalledAppDetailsList();
+        ArrayAdapter adapter = new InstalledAppListAdapater(
+                getBaseContext(), android.R.layout.simple_list_item_1 , installedApps);
         listView.setAdapter(adapter);
     }
 
     @NonNull
-    private List<String> getInstalledAppNamesList() {
+    private List<InstalledAppDetails> getInstalledAppDetailsList() {
         List<ApplicationInfo> installedAppsList = queryPackageManagerForListOfInstalledApps();
         return populateInstalledAppNamesList(installedAppsList);
     }
@@ -32,10 +35,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private List<String> populateInstalledAppNamesList(List<ApplicationInfo> installedAppsList) {
-        List<String> installedApps = new ArrayList<>();
+    private List<InstalledAppDetails> populateInstalledAppNamesList(List<ApplicationInfo> installedAppsList) {
+        List<InstalledAppDetails> installedApps = new ArrayList<>();
         for(ApplicationInfo applicationInfo : installedAppsList)
-            installedApps.add(applicationInfo.loadLabel(getPackageManager()).toString());
+        {
+            InstalledAppDetails appDetails = new InstalledAppDetails(
+                    applicationInfo.loadLabel(getPackageManager()).toString(),
+                    applicationInfo.loadIcon(getPackageManager())
+            );
+            installedApps.add(appDetails);
+        }
         return installedApps;
     }
 }
