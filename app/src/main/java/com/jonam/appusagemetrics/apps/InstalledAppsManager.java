@@ -26,26 +26,24 @@ public class InstalledAppsManager {
     private void populateInstalledAppNamesList() {
         for(ApplicationInfo applicationInfo : applicationInfoList)
         {
-            AppDetails appDetails = new AppDetails(
-                    applicationInfo.loadLabel(context.getPackageManager()).toString(),
-                    applicationInfo.loadIcon(context.getPackageManager())
-            );
-            appDetailsList.add(appDetails);
+            if(satifiesFilterConditions(applicationInfo))
+            {
+                appDetailsList.add(new AppDetails(
+                        applicationInfo.loadLabel(context.getPackageManager()).toString(),
+                        applicationInfo.loadIcon(context.getPackageManager())
+                ));
+            }
         }
+    }
+
+    // TODO: Debug the different flags.
+    private boolean satifiesFilterConditions(ApplicationInfo applicationInfo) {
+        //return (applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
+        return !applicationInfo.loadLabel(context.getPackageManager()).toString().startsWith("com.");
     }
 
     public List<AppDetails> getAppDetailsList() {
-        List<AppDetails> filteredList = filterApps();
-        return filteredList;
+        return appDetailsList;
     }
 
-    private List<AppDetails> filterApps() {
-        List<AppDetails> filteredList = new ArrayList<>();
-        for(AppDetails appDetails : appDetailsList)
-        {
-            if(!appDetails.getAppName().startsWith("com."))
-                filteredList.add(appDetails);
-        }
-        return filteredList;
-    }
 }
